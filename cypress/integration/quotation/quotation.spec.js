@@ -52,14 +52,14 @@ describe('Quotation Testing', () => {
             // CHECK DATE
             cy.get('[name=date]').should("have.value",date);
 
+            // CUSTOMER
             cy.get('label[for=customer_id]')
                 .parent()
                 .siblings()
                 .find(".v-select")
                 .find("input[class=vs__search]")
                 .focus();
-                // .invoke('addClass','vs--open');
-
+                
             cy.get('label[for=customer_id]')
                 .parent()
                 .siblings()
@@ -75,23 +75,49 @@ describe('Quotation Testing', () => {
                 .find(".v-select")
                 .find("span[class=vs__selected]")
                 .should("include.text","customer");
-                
-            // vs__selected
+            
+            // SELLER 
+            cy.get('input[name=seller_id]').should('include.value','seller')
 
-            // cy.get('label[for=customer_id]')
-            //     .parent()
-            //     .siblings()
-            //     .find(".v-select")
-            //     .find("input")
-            //     .focus()
-            //     .then(() => {
-            //         cy.get('label[for=customer_id]')
-            //             .parent()
-            //             .siblings()
-            //             .find(".v-select")
-            //             .find(".vs__dropdown_menu")                        
-            //             // .find('li');
-            // });
+            // GROUP CUSTOMER
+            cy.get('input[name=group_customer]').should('include.value','Harga')
+
+            // ADDRESS
+            cy.get('input[name=address]').should('include.value','alamat');
+
+            // DISCOUNT TYPE
+            cy.get('select[name=type_discount]').select('PERCENT');                
+
+            // ADDRESS
+            cy.get("input[name=description]").type('TESTING');
+
+            cy.get('.btn-primary').contains('Tambah').click();
+
+            cy.get('.table').find('tr').should('have.length', 6);
+
+            cy.get('.btn-primary').contains('Tambah').click();
+
+            cy.get('.table').find('tr').should('have.length', 7);
+
+            cy.get('.table')
+                .find('tr[name=table-body-data1]')
+                .find(".v-select")
+                .find("input[class=vs__search]")
+                .focus();
+
+            cy.get('.table')
+                .find('tr[name=table-body-data1]')
+                .find(".v-select")
+                .find(".vs__dropdown-menu")
+                .find("li")
+                .first()
+                .click();
+
+            cy.get('.table')
+                .find('tr[name=table-body-data1]')
+                .find(".v-select")
+                .find("span[class=vs__selected]")
+                .should("include.text","product");
         })
     })
 
